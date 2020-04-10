@@ -26,19 +26,21 @@ const WestWorldInformationDisplay: React.FunctionComponent<WestWorldInformationP
   const [currentSeason, setCurrentSeason] = useState(1);
 
   useEffect(() => {
+    console.log("about to dispatch Init");
     store.dispatch(getWestworldDetailsInit());
 
     fetch("http://api.tvmaze.com/singlesearch/shows?q=westworld&embed=episodes")
       .then((response) => response.json())
-      .then((json) =>
-        store.dispatch(
+      .then((json) => {
+        console.log("about to dispatch Success");
+        return store.dispatch(
           getWestworldDetailsSuccess({
             westworldInformation: {
               ...json,
             } as WestWorldInformation,
           })
-        )
-      );
+        );
+      });
   }, []);
 
   const westWorldInformation = props.westWorldInformation;
