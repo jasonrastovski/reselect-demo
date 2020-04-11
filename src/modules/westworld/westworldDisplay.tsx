@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { store } from "../../store";
 import { getWestworldDetailsSuccess, getWestworldDetailsInit } from "./actions";
-import { WestWorldInformation, ApplicationState } from "./models";
+import { WestWorldInformation } from "./models";
 import { connect } from "react-redux";
 import {
   Card,
@@ -13,26 +13,25 @@ import {
 } from "@material-ui/core";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
+import { ApplicationState } from "../../models";
 
-interface WestWorldInformationProps {
+interface WestWorldProps {
   westWorldInformation: WestWorldInformation;
   isFetchingWestworldInformation: boolean;
   errorFetchingWestworldInformation: string;
 }
 
-const WestWorldInformationDisplay: React.FunctionComponent<WestWorldInformationProps> = (
-  props: WestWorldInformationProps
+const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps> = (
+  props: WestWorldProps
 ) => {
   const [currentSeason, setCurrentSeason] = useState(1);
 
   useEffect(() => {
-    console.log("about to dispatch Init");
     store.dispatch(getWestworldDetailsInit());
 
     fetch("http://api.tvmaze.com/singlesearch/shows?q=westworld&embed=episodes")
       .then((response) => response.json())
       .then((json) => {
-        console.log("about to dispatch Success");
         return store.dispatch(
           getWestworldDetailsSuccess({
             westworldInformation: {
@@ -53,7 +52,7 @@ const WestWorldInformationDisplay: React.FunctionComponent<WestWorldInformationP
     westWorldInformation.episodes?.map((episode) => episode.season)
   );
 
-  console.log("rendering...", props);
+  console.log("Rendering WestWorldInformationDisplay...", props);
   return props.isFetchingWestworldInformation ? null : (
     <Card>
       <CardMedia
@@ -108,9 +107,11 @@ const WestWorldInformationDisplay: React.FunctionComponent<WestWorldInformationP
 };
 
 const mapStateToProps = (state: ApplicationState) => ({
-  westWorldInformation: state.westworldInformation,
-  isFetchingWestworldInformation: state.isFetchingWestworldInformation,
-  errorFetchingWestworldInformation: state.errorFetchingWestworldInformation,
+  westWorldInformation: state.westworldSlice.westworldInformation,
+  isFetchingWestworldInformation:
+    state.westworldSlice.isFetchingWestworldInformation,
+  errorFetchingWestworldInformation:
+    state.westworldSlice.errorFetchingWestworldInformation,
 });
 
 export default connect(mapStateToProps)(WestWorldInformationDisplay);

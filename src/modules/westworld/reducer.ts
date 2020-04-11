@@ -4,11 +4,10 @@ import {
   getWestworldDetailsFailure,
 } from "./actions";
 import { createReducer } from "@reduxjs/toolkit";
-import { ApplicationState, WestWorldInformation, ISSLocation } from "./models";
+import { WestWorldInformation, WestworldState } from "./models";
 
-const initialState: ApplicationState = {
+const initialState: WestworldState = {
   westworldInformation: {} as WestWorldInformation,
-  iSSLocation: {} as ISSLocation,
   errorFetchingWestworldInformation: "",
   isFetchingWestworldInformation: false,
 };
@@ -31,7 +30,8 @@ export const westworldReducer = createReducer(initialState, {
     return {
       ...state,
       isFetchingWestworldInformation: false,
-      action,
+      errorFetchingWestworldInformation:
+        action.errorFetchingWestworldInformation,
     };
   },
 });

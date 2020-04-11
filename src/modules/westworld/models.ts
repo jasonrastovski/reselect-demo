@@ -19,19 +19,6 @@ export interface WestWorldInformation {
   ];
 }
 
-export interface ISSLocation {
-  latitude: number;
-  longitude: number;
-  timestamp: Date;
-}
-
-export interface ApplicationState {
-  westworldInformation: WestWorldInformation;
-  iSSLocation: ISSLocation;
-  isFetchingWestworldInformation: boolean;
-  errorFetchingWestworldInformation: string;
-}
-
 export interface GetWestworldDetailsSuccess {
   westworldInformation: {};
 }
@@ -40,4 +27,8 @@ export interface GetWestworldDetailsFailure {
   errorFetchingWestworldInformation: string;
 }
 
-export {};
+export interface WestworldState {
+  westworldInformation: WestWorldInformation;
+  isFetchingWestworldInformation: boolean;
+  errorFetchingWestworldInformation: string;
+}

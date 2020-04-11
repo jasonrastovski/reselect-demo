@@ -1,6 +1,7 @@
 import React from "react";
-import WestWorldInformationDisplay from "./modules/westworld/westworldInformationDisplay";
+import WestWorldInformationDisplay from "./modules/westworld/westworldDisplay";
 import { Container, Grid } from "@material-ui/core";
+import ISSDisplay from "./modules/issStation/issStationDisplay";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
           <WestWorldInformationDisplay />
         </Grid>
         <Grid item xs={6}>
-          <div>ISS Information</div>
+          <ISSDisplay />
         </Grid>
       </Grid>
     </Container>
