@@ -51,8 +51,6 @@ const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
     return new Date(timestamp * 1000).toTimeString();
   };
 
-  const MAP_KEY = "AIzaSyBXbnjfJLH6Sdudp5dIFRqHFF7P2YOPq40";
-
   const IMG = <img src="./ISS.png" alt="iss" height="30px" />;
 
   interface SpaceStationProps {
