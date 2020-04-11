@@ -60,7 +60,7 @@ const WestWorldInformationDisplay: React.FunctionComponent<WestWorldInformationP
         component="img"
         alt="Westworld Image"
         height="140"
-        image={westWorldInformation.image?.medium}
+        image={westWorldInformation.image?.original}
         title="Westworld Image"
       />
       <CardContent>

@@ -2,7 +2,7 @@ export interface WestWorldInformation {
   type: string;
   language: string;
   runtime: number;
-  image: { medium: string };
+  image: { medium: string; original: string };
   summary: string;
   episodes: [
     {
@@ -10,7 +10,10 @@ export interface WestWorldInformation {
       name: string;
       season: number;
       number: number;
-      image: { medium: string };
+      image: {
+        medium: string;
+        original: string;
+      };
       _links: { self: string };
     }
   ];
