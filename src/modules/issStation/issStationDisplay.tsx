@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactNode } from "react";
 import { store } from "../../store";
 import {
   getIssStationDetailsInit,
@@ -8,6 +8,8 @@ import { ISSLocationInformation } from "./models";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import { ApplicationState } from "../../models";
 import { connect } from "react-redux";
+
+import GoogleMapReact from "google-map-react";
 
 interface ISSDisplayProps {
   iSSLocationInformation: ISSLocationInformation;
@@ -32,13 +34,13 @@ const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
   useEffect(() => {
     getIssStationDetails();
 
-    let handler = setInterval(() => {
-      getIssStationDetails();
-    }, 5000);
+    // let handler = setInterval(() => {
+    //   getIssStationDetails();
+    // }, 5000);
 
-    return () => {
-      clearInterval(handler);
-    };
+    // return () => {
+    //   clearInterval(handler);
+    // };
   }, []);
 
   const renderControl =
@@ -49,6 +51,28 @@ const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
     return new Date(timestamp * 1000).toTimeString();
   };
 
+  const MAP_KEY = "AIzaSyBXbnjfJLH6Sdudp5dIFRqHFF7P2YOPq40";
+
+  const IMG = <img src="./ISS.png" alt="iss" height="30px" />;
+
+  interface SpaceStationProps {
+    img: ReactNode;
+    lat: number;
+    lng: number;
+  }
+
+  const SpaceStation: React.FunctionComponent<SpaceStationProps> = ({
+    img,
+  }) => <div>{IMG}</div>;
+
+  // const coordinates = {
+  //   lat: props.iSSLocationInformation.iss_position.latitude,
+  //   lng: props.iSSLocationInformation.iss_position.longitude,
+  // };
+  const coordinates = {
+    lat: 59.95,
+    lng: 30.33,
+  };
   console.log("Rendering ISSDisplay...", props);
   return (
     <Card>
@@ -67,6 +91,20 @@ const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
             <Typography variant="body2" color="textSecondary">
               timestamp: {getDateTime(props.iSSLocationInformation.timestamp)}
             </Typography>
+
+            <div className="map" style={{ height: "100vh", width: "80%" }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: MAP_KEY }}
+                defaultZoom={11}
+                defaultCenter={coordinates}
+              >
+                <SpaceStation
+                  lat={+props.iSSLocationInformation.iss_position.latitude}
+                  lng={+props.iSSLocationInformation.iss_position.longitude}
+                  img={IMG}
+                />
+              </GoogleMapReact>
+            </div>
           </>
         )}
       </CardContent>
