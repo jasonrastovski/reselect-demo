@@ -4,11 +4,11 @@ export interface ISSLocationInformation {
   iss_position: { latitude: string; longitude: string };
 }
 
-export interface GetIssStationDetailsSuccess {
-  issLocationInformation: {};
+export interface GetIssStationDetailsSuccessPayload {
+  issLocationInformation: ISSLocationInformation;
 }
 
-export interface GetIssStationDetailsFailure {
+export interface GetIssStationDetailsFailurePayload {
   errorFetchingIssStationInformation: string;
 }
 

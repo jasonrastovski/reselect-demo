@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { store } from "../../store";
 import {
-  getIssStationDetailsInit,
-  getIssStationDetailsSuccess,
+  initIssStation,
+  getIssStationSuccess,
+  getIssStationFailure,
 } from "./actions";
 import { ISSLocationInformation } from "./models";
 import { Card, CardContent, Typography } from "@material-ui/core";
-import { ApplicationState } from "../../models";
-import { connect } from "react-redux";
-import GoogleMap from "./googleMap";
 
 interface ISSDisplayProps {
   iSSLocationInformation: ISSLocationInformation;
@@ -16,19 +14,16 @@ interface ISSDisplayProps {
   errorFetchingIssStationInformation: string;
 }
 
-const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
+export const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
   props: ISSDisplayProps
 ) => {
   const getIssStationDetails = () => {
-    store.dispatch(getIssStationDetailsInit());
+    store.dispatch(initIssStation());
 
     fetch("http://api.open-notify.org/iss-now.json")
       .then((response) => response.json())
-      .then((json) =>
-        store.dispatch(
-          getIssStationDetailsSuccess({ issLocationInformation: json })
-        )
-      );
+      .then((json) => store.dispatch(getIssStationSuccess(json)))
+      .catch((err) => store.dispatch(getIssStationFailure(err)));
   };
   useEffect(() => {
     getIssStationDetails();
@@ -68,20 +63,9 @@ const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
             <Typography variant="body2" color="textSecondary">
               timestamp: {getDateTime(props.iSSLocationInformation.timestamp)}
             </Typography>
-            {/* <GoogleMap /> */}
           </>
         )}
       </CardContent>
     </Card>
   );
 };
-
-const mapStateToProps = (state: ApplicationState) => ({
-  iSSLocationInformation: state.issStationSlice.iSSLocationInformation,
-  isFetchingIssStationInformation:
-    state.issStationSlice.isFetchingIssStationInformation,
-  errorFetchingIssStationInformation:
-    state.issStationSlice.errorFetchingIssStationInformation,
-});
-
-export default connect(mapStateToProps)(ISSDisplay);

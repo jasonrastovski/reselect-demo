@@ -19,11 +19,11 @@ export interface WestWorldInformation {
   ];
 }
 
-export interface GetWestworldDetailsSuccess {
-  westworldInformation: {};
+export interface GetWestworldDetailsSuccessPayload {
+  westworldInformation: any;
 }
 
-export interface GetWestworldDetailsFailure {
+export interface GetWestworldDetailsFailurePayload {
   errorFetchingWestworldInformation: string;
 }
 

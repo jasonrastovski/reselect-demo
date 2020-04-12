@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { store } from "../../store";
-import { getWestworldDetailsSuccess, getWestworldDetailsInit } from "./actions";
+import {
+  getWestworldSuccess,
+  getWestworldFailure,
+  initWestworld,
+} from "./actions";
 import { WestWorldInformation } from "./models";
-import { connect } from "react-redux";
 import {
   Card,
   CardMedia,
@@ -13,7 +16,6 @@ import {
 } from "@material-ui/core";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
-import { ApplicationState } from "../../models";
 
 interface WestWorldProps {
   westWorldInformation: WestWorldInformation;
@@ -21,25 +23,20 @@ interface WestWorldProps {
   errorFetchingWestworldInformation: string;
 }
 
-const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps> = (
+export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps> = (
   props: WestWorldProps
 ) => {
   const [currentSeason, setCurrentSeason] = useState(1);
 
   useEffect(() => {
-    store.dispatch(getWestworldDetailsInit());
+    store.dispatch(initWestworld());
 
     fetch("http://api.tvmaze.com/singlesearch/shows?q=westworld&embed=episodes")
       .then((response) => response.json())
       .then((json) => {
-        return store.dispatch(
-          getWestworldDetailsSuccess({
-            westworldInformation: {
-              ...json,
-            } as WestWorldInformation,
-          })
-        );
-      });
+        return store.dispatch(getWestworldSuccess(json));
+      })
+      .catch((err) => store.dispatch(getWestworldFailure(err)));
   }, []);
 
   const westWorldInformation = props.westWorldInformation;
@@ -105,13 +102,3 @@ const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps> = (
     </Card>
   );
 };
-
-const mapStateToProps = (state: ApplicationState) => ({
-  westWorldInformation: state.westworldSlice.westworldInformation,
-  isFetchingWestworldInformation:
-    state.westworldSlice.isFetchingWestworldInformation,
-  errorFetchingWestworldInformation:
-    state.westworldSlice.errorFetchingWestworldInformation,
-});
-
-export default connect(mapStateToProps)(WestWorldInformationDisplay);
