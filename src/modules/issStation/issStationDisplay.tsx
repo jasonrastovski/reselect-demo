@@ -6,7 +6,7 @@ import {
   getIssStationFailure,
 } from "./actions";
 import { ISSLocationInformation } from "./models";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Card, CardContent, Typography, Button } from "@material-ui/core";
 
 interface ISSDisplayProps {
   iSSLocationInformation: ISSLocationInformation;
@@ -45,6 +45,10 @@ export const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
     return new Date(timestamp * 1000).toTimeString();
   };
 
+  const updateISS = () => {
+    getIssStationDetails();
+  };
+
   console.log("Rendering ISSDisplay...", props);
   return (
     <Card>
@@ -65,7 +69,12 @@ export const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
             </Typography>
           </>
         )}
+        <Button color="primary" onClick={updateISS}>
+          Update
+        </Button>
       </CardContent>
     </Card>
   );
 };
+
+export const ISSDisplayMemoed = React.memo(ISSDisplay);

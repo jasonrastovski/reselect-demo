@@ -13,6 +13,7 @@ import {
   Typography,
   IconButton,
   Grid,
+  Button,
 } from "@material-ui/core";
 import NavigateBefore from "@material-ui/icons/NavigateBefore";
 import NavigateNext from "@material-ui/icons/NavigateNext";
@@ -28,7 +29,7 @@ export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps
 ) => {
   const [currentSeason, setCurrentSeason] = useState(1);
 
-  useEffect(() => {
+  const getWestworldInformation = () => {
     store.dispatch(initWestworld());
 
     fetch("http://api.tvmaze.com/singlesearch/shows?q=westworld&embed=episodes")
@@ -37,6 +38,10 @@ export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps
         return store.dispatch(getWestworldSuccess(json));
       })
       .catch((err) => store.dispatch(getWestworldFailure(err)));
+  };
+
+  useEffect(() => {
+    getWestworldInformation();
   }, []);
 
   const westWorldInformation = props.westWorldInformation;
@@ -49,6 +54,9 @@ export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps
     westWorldInformation.episodes?.map((episode) => episode.season)
   );
 
+  const updateWestWorld = () => {
+    getWestworldInformation();
+  };
   console.log("Rendering WestWorldInformationDisplay...", props);
   return props.isFetchingWestworldInformation ? null : (
     <Card>
@@ -77,6 +85,10 @@ export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps
           </Typography>
         ))}
 
+        <Button color="primary" onClick={updateWestWorld}>
+          Update
+        </Button>
+
         <Grid container>
           <Grid item xs={6}>
             <IconButton
@@ -102,3 +114,7 @@ export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps
     </Card>
   );
 };
+
+export const WestWorldInformationDisplayMemoed = React.memo(
+  WestWorldInformationDisplay
+);
