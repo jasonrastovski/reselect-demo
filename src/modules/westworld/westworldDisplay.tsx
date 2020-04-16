@@ -114,7 +114,3 @@ export const WestWorldInformationDisplay: React.FunctionComponent<WestWorldProps
     </Card>
   );
 };
-
-export const WestWorldInformationDisplayMemoed = React.memo(
-  WestWorldInformationDisplay
-);

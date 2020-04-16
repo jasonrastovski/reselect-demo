@@ -28,13 +28,13 @@ export const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
   useEffect(() => {
     getIssStationDetails();
 
-    // let handler = setInterval(() => {
-    //   getIssStationDetails();
-    // }, 5000);
+    let handler = setInterval(() => {
+      getIssStationDetails();
+    }, 5000);
 
-    // return () => {
-    //   clearInterval(handler);
-    // };
+    return () => {
+      clearInterval(handler);
+    };
   }, []);
 
   const renderControl =
@@ -56,19 +56,21 @@ export const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
         <Typography gutterBottom variant="h5" component="h2">
           ISS Station
         </Typography>
-        {renderControl && (
-          <>
-            <Typography variant="body2" color="textSecondary">
-              latitude: {props.iSSLocationInformation.iss_position.latitude}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              longitude: {props.iSSLocationInformation.iss_position.longitude}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              timestamp: {getDateTime(props.iSSLocationInformation.timestamp)}
-            </Typography>
-          </>
-        )}
+        <div className={"iss-lat-long"}>
+          {renderControl && (
+            <>
+              <Typography variant="body2" color="textSecondary">
+                latitude: {props.iSSLocationInformation.iss_position.latitude}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                longitude: {props.iSSLocationInformation.iss_position.longitude}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                timestamp: {getDateTime(props.iSSLocationInformation.timestamp)}
+              </Typography>
+            </>
+          )}
+        </div>
         <Button color="primary" onClick={updateISS}>
           Update
         </Button>
@@ -76,5 +78,3 @@ export const ISSDisplay: React.FunctionComponent<ISSDisplayProps> = (
     </Card>
   );
 };
-
-export const ISSDisplayMemoed = React.memo(ISSDisplay);
