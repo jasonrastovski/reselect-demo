@@ -11,7 +11,7 @@ const getErrorFetchingWestworldInformation = (state: ApplicationState) =>
   state.westworldSlice.errorFetchingWestworldInformation;
 
 export const basicWssSelector = (state: ApplicationState) => {
-  console.log("basic wssSelector");
+  console.log("doing 'work' in the basic wssSelector");
   return {
     westworldInformation: getWestWordInformation(state),
     isFetchingWestworldInformation: getIsFetchingWestworldInformation(state),

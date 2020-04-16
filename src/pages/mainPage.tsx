@@ -4,8 +4,10 @@ import { ISSLocationInformation } from "../modules/issStation/models";
 import { WestWorldInformation } from "../modules/westworld/models";
 import { ApplicationState } from "../models";
 import { connect } from "react-redux";
-import { WestWorldInformationDisplay } from "../modules/westworld/westworldDisplay";
 import { ISSDisplay } from "../modules/issStation/issStationDisplay";
+import { basicWssSelector } from "../basicSelectors";
+import { wssSelector } from "../selectors";
+import { WestWorldInformationDisplay } from "../modules/westworld/westworldDisplay";
 
 interface MainPageProps {
   iSSLocationInformation: ISSLocationInformation;
@@ -56,17 +58,19 @@ const MainPage: React.FunctionComponent<MainPageProps> = (
   );
 };
 
-const mapStateToProps = (state: ApplicationState) => ({
-  westWorldInformation: state.westworldSlice.westworldInformation,
-  isFetchingWestworldInformation:
-    state.westworldSlice.isFetchingWestworldInformation,
-  errorFetchingWestworldInformation:
-    state.westworldSlice.errorFetchingWestworldInformation,
-  iSSLocationInformation: state.issStationSlice.iSSLocationInformation,
-  isFetchingIssStationInformation:
-    state.issStationSlice.isFetchingIssStationInformation,
-  errorFetchingIssStationInformation:
-    state.issStationSlice.errorFetchingIssStationInformation,
-});
+const mapStateToProps = (state: ApplicationState) => {
+  return {
+    westWorldInformation: state.westworldSlice.westworldInformation,
+    isFetchingWestworldInformation:
+      state.westworldSlice.isFetchingWestworldInformation,
+    errorFetchingWestworldInformation:
+      state.westworldSlice.errorFetchingWestworldInformation,
+    iSSLocationInformation: state.issStationSlice.iSSLocationInformation,
+    isFetchingIssStationInformation:
+      state.issStationSlice.isFetchingIssStationInformation,
+    errorFetchingIssStationInformation:
+      state.issStationSlice.errorFetchingIssStationInformation,
+  };
+};
 
 export default connect(mapStateToProps)(MainPage);

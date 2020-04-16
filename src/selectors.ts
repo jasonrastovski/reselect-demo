@@ -22,7 +22,7 @@ export const wssSelector = createSelector(
     isFetchingWestworldInformation,
     errorFetchingWestworldInformation
   ) => {
-    console.log("wssSelector");
+    console.log("doing 'work' in the wssSelector");
     return {
       westworldInformation,
       isFetchingWestworldInformation,
